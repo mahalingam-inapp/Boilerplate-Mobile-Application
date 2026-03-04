@@ -1,0 +1,25 @@
+name: boilerplate_app_flutter
+description: Flutter migration of BoilerplateApp - identical look and feel.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  go_router: ^14.2.0
+  provider: ^6.1.2
+  shared_preferences: ^2.2.2
+  flutter_svg: ^2.0.10+1
+  google_maps_flutter: ^2.5.0
+  fl_chart: ^0.66.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
