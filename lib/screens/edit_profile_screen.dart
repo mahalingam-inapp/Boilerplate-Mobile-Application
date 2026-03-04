@@ -110,7 +110,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   alignment: Alignment.bottomRight,
                   children: [
                     ImageWithFallback(
-                      src: user?.avatar ?? '',
+                      src: (user?.avatar != null && user!.avatar.isNotEmpty)
+                          ? user.avatar
+                          : AuthNotifier.defaultAvatarAsset,
                       alt: user?.name ?? 'User',
                       width: 96,
                       height: 96,

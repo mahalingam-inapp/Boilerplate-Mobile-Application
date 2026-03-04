@@ -193,15 +193,20 @@ class _SearchScreenState extends State<SearchScreen> {
                     )).toList(),
                   )
           else
-            AppCard(
-              child: Column(
-                children: [
-                  Icon(Icons.search, size: 48, color: AppColors.mutedForeground),
-                  const SizedBox(height: 12),
-                  const Text('Start searching', style: TextStyle(fontWeight: FontWeight.w500)),
-                  const SizedBox(height: 4),
-                  Text('Enter a search term to find items', style: TextStyle(fontSize: 14, color: AppColors.mutedForeground)),
-                ],
+            SizedBox(
+              width: double.infinity,
+              child: AppCard(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.search, size: 48, color: AppColors.mutedForeground),
+                    const SizedBox(height: 12),
+                    const Text('Start searching', style: TextStyle(fontWeight: FontWeight.w500)),
+                    const SizedBox(height: 4),
+                    Text('Enter a search term to find items', style: TextStyle(fontSize: 14, color: AppColors.mutedForeground)),
+                  ],
+                ),
               ),
             ),
         ],

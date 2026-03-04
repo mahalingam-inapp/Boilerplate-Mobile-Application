@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:go_router/go_router.dart';
 import '../core/auth_notifier.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_card.dart';
@@ -151,7 +152,6 @@ class DashboardScreen extends ConsumerWidget {
                             borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
                           ),
                         ],
-                        showingTooltipIndicators: [0],
                       )).toList(),
                     ),
                   ),
@@ -178,6 +178,7 @@ class DashboardScreen extends ConsumerWidget {
                     _QuickAction(icon: Icons.people_outline, label: 'Add User', color: AppColors.secondary),
                     _QuickAction(icon: Icons.shopping_bag_outlined, label: 'View Orders', color: AppColors.primary),
                     _QuickAction(icon: Icons.show_chart, label: 'Analytics', color: AppColors.secondary),
+                    _QuickAction(icon: Icons.map_outlined, label: 'Find nearby', color: AppColors.primary, onTap: () => context.push('/map')),
                   ],
                 ),
               ],
@@ -234,8 +235,9 @@ class _QuickAction extends StatelessWidget {
   final IconData icon;
   final String label;
   final Color color;
+  final VoidCallback? onTap;
 
-  const _QuickAction({required this.icon, required this.label, required this.color});
+  const _QuickAction({required this.icon, required this.label, required this.color, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -243,7 +245,7 @@ class _QuickAction extends StatelessWidget {
       color: color.withOpacity(0.08),
       borderRadius: BorderRadius.circular(AppTheme.radiusLg),
       child: InkWell(
-        onTap: () {},
+        onTap: onTap,
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
         child: Padding(
           padding: const EdgeInsets.all(16),

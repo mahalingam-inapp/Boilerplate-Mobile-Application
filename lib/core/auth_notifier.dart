@@ -11,6 +11,9 @@ final authProvider =
 class AuthNotifier extends StateNotifier<AuthState> {
   AuthNotifier() : super(const AuthState(loading: false));
 
+  /// Default profile avatar asset. Used when user has no custom avatar.
+  static const String defaultAvatarAsset = 'assets/images/profile_avatar.png';
+
   Future<void> signIn(String email, String password) async {
     await Future.delayed(const Duration(seconds: 1));
     final parts = email.split('@');
@@ -19,7 +22,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         id: '1',
         email: email,
         name: parts.isNotEmpty ? parts[0] : email,
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=$email',
+        avatar: defaultAvatarAsset,
       ),
     );
     authRefreshListenable.notifyListeners();
@@ -35,7 +38,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         email: isEmail ? phoneOrEmail : '',
         phone: isEmail ? '' : phoneOrEmail,
         name: name,
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=$phoneOrEmail',
+        avatar: defaultAvatarAsset,
       ),
     );
     authRefreshListenable.notifyListeners();
@@ -48,7 +51,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         email: email,
         name: name,
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=$email',
+        avatar: defaultAvatarAsset,
       ),
     );
     authRefreshListenable.notifyListeners();

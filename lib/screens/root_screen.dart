@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../theme/app_theme.dart';
+import '../widgets/app_logo.dart';
 
 class _NavItem {
   final String path;
@@ -33,18 +34,32 @@ class RootScreen extends StatelessWidget {
     if (isAuthRoute) {
       return Material(
         color: colorScheme.surface,
-        child: child,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const AppLogo(),
+            Expanded(child: child),
+          ],
+        ),
       );
     }
 
     return Scaffold(
       backgroundColor: colorScheme.surface,
       body: SafeArea(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 400),
-            child: child,
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const AppLogo(),
+            Expanded(
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 400),
+                  child: child,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: Container(

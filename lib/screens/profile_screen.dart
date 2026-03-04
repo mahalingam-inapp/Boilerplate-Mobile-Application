@@ -5,6 +5,7 @@ import '../core/auth_notifier.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_card.dart';
 import '../widgets/app_button.dart';
+import '../core/auth_notifier.dart';
 import '../widgets/image_with_fallback.dart';
 
 class _StatItem {
@@ -57,7 +58,9 @@ class ProfileScreen extends ConsumerWidget {
                     alignment: Alignment.bottomRight,
                     children: [
                       ImageWithFallback(
-                        src: user?.avatar ?? '',
+                        src: (user?.avatar != null && user!.avatar.isNotEmpty)
+                            ? user.avatar
+                            : AuthNotifier.defaultAvatarAsset,
                         alt: user?.name ?? 'User',
                         width: 96,
                         height: 96,
