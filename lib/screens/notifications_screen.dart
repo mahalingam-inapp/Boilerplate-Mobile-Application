@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_card.dart';
 
@@ -22,11 +23,14 @@ class NotificationsScreen extends StatefulWidget {
 class _NotificationsScreenState extends State<NotificationsScreen> {
   bool showAll = true;
   List<_Notification> _notifications = const [
-    _Notification(id: '1', type: 'order', title: 'Order Shipped', message: 'Your order #12345 has been shipped and is on its way', time: '2 hours ago', read: false),
-    _Notification(id: '2', type: 'favorite', title: 'Price Drop', message: 'An item in your wishlist is now on sale!', time: '5 hours ago', read: false),
-    _Notification(id: '3', type: 'message', title: 'New Message', message: 'You have a new message from Support Team', time: '1 day ago', read: true),
-    _Notification(id: '4', type: 'system', title: 'App Update', message: 'A new version of the app is available. Update now!', time: '2 days ago', read: true),
-    _Notification(id: '5', type: 'order', title: 'Order Delivered', message: 'Your order #12344 has been delivered successfully', time: '3 days ago', read: true),
+    _Notification(id: '1', type: 'order', title: 'Order Shipped', message: 'Your order #12345 has been shipped and is on its way. Track it in Orders.', time: '2 hours ago', read: false),
+    _Notification(id: '2', type: 'favorite', title: 'Price Drop', message: 'Wireless Headphones in your wishlist are now 20% off. Limited time only.', time: '5 hours ago', read: false),
+    _Notification(id: '3', type: 'message', title: 'New Message', message: 'Support: Hi! We received your request. We’ll get back to you within 24 hours.', time: '1 day ago', read: true),
+    _Notification(id: '4', type: 'system', title: 'App Update', message: 'Version 2.1.0 is available with new features and bug fixes. Update now for the best experience.', time: '2 days ago', read: true),
+    _Notification(id: '5', type: 'order', title: 'Order Delivered', message: 'Your order #12344 was delivered. We hope you enjoy your purchase. Leave a review?', time: '3 days ago', read: true),
+    _Notification(id: '6', type: 'order', title: 'Payment Received', message: 'We’ve received your payment of \$149.99 for order #12343. Thank you for your order.', time: '4 days ago', read: true),
+    _Notification(id: '7', type: 'system', title: 'Reminder', message: 'Don’t forget: your saved items may have changed price. Check your wishlist to see the latest deals.', time: '5 days ago', read: true),
+    _Notification(id: '8', type: 'message', title: 'Weekly Digest', message: 'Here’s what you missed: 3 new items match your preferences, and 2 orders are on the way.', time: '1 week ago', read: true),
   ];
 
   int get _unreadCount => _notifications.where((n) => !n.read).length;
@@ -70,6 +74,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final mutedColor = isDark ? AppColorsDark.mutedForeground : AppColors.mutedForeground;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -81,8 +88,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Notifications', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500)),
-                  Text(_unreadCount > 0 ? '$_unreadCount unread' : 'All caught up!', style: TextStyle(color: AppColors.mutedForeground)),
+                  Text('Notifications', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500, color: theme.colorScheme.onSurface)),
+                  Text(_unreadCount > 0 ? '$_unreadCount unread' : 'All caught up!', style: TextStyle(color: mutedColor)),
                 ],
               ),
               if (_unreadCount > 0)
@@ -131,11 +138,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             AppCard(
               child: Column(
                 children: [
-                  Icon(Icons.notifications_none, size: 48, color: AppColors.mutedForeground),
+                  Icon(Icons.notifications_none, size: 48, color: mutedColor),
                   const SizedBox(height: 12),
-                  const Text('No notifications', style: TextStyle(fontWeight: FontWeight.w500)),
+                  Text('No notifications', style: TextStyle(fontWeight: FontWeight.w500, color: theme.colorScheme.onSurface)),
                   const SizedBox(height: 4),
-                  Text("You're all caught up!", style: TextStyle(fontSize: 14, color: AppColors.mutedForeground)),
+                  Text("You're all caught up!", style: TextStyle(fontSize: 14, color: mutedColor)),
                 ],
               ),
             )
@@ -143,7 +150,15 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             ..._filtered.map((n) => Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: AppCard(
-                onTap: () => _markAsRead(n.id),
+                onTap: () {
+                  _markAsRead(n.id);
+                  context.push('/notifications/${n.id}', extra: {
+                    'title': n.title,
+                    'message': n.message,
+                    'time': n.time,
+                    'type': n.type,
+                  });
+                },
                 child: Stack(
                   children: [
                     Row(
@@ -162,17 +177,17 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             children: [
                               Row(
                                 children: [
-                                  Expanded(child: Text(n.title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500))),
+                                  Expanded(child: Text(n.title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: theme.colorScheme.onSurface))),
                                   GestureDetector(
                                     onTap: () => _delete(n.id),
-                                    child: Icon(Icons.close, size: 16, color: AppColors.mutedForeground),
+                                    child: Icon(Icons.close, size: 16, color: mutedColor),
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 4),
-                              Text(n.message, style: TextStyle(fontSize: 14, color: AppColors.mutedForeground), maxLines: 2, overflow: TextOverflow.ellipsis),
+                              Text(n.message, style: TextStyle(fontSize: 14, color: mutedColor), maxLines: 3, overflow: TextOverflow.ellipsis),
                               const SizedBox(height: 4),
-                              Text(n.time, style: TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
+                              Text(n.time, style: TextStyle(fontSize: 12, color: mutedColor)),
                             ],
                           ),
                         ),

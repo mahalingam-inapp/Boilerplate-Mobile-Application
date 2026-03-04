@@ -34,6 +34,8 @@ These are the five tabs in the root shell (bottom navigation).
 | Screen | Route | How to get there |
 |--------|--------|-------------------|
 | **Edit Profile** | `/profile/edit` | Profile screen → "Edit profile" |
+| **Addresses** | `/profile/addresses` | Profile → Addresses |
+| **Order History** | `/profile/orders` | Profile → Order History |
 | **Terms & Conditions** | `/terms` | Settings → Terms; or Sign Up / footer links |
 | **Privacy Policy** | `/privacy` | Settings → Privacy; or Sign Up / footer links |
 
@@ -54,8 +56,15 @@ These are the five tabs in the root shell (bottom navigation).
 
 | Screen | Route | How to get there |
 |--------|--------|-------------------|
+| **Notification Detail** | `/notifications/:id` | Notifications → tap a notification card |
+| **Order History** | `/orders` | Dashboard → Quick Actions → View Orders; or Profile → Order History |
+| **Order Detail** | `/orders/:id` | Order History → tap an order |
+| **Analytics** | `/analytics` | Dashboard → Quick Actions → Analytics |
+| **Add User** | `/users/add` | Dashboard → Quick Actions → Add User |
+| **Help Center** | `/help` | Settings → Help Center |
+| **Language** | `/settings/language` | Settings → Language |
+| **About** | `/settings/about` | Settings → About |
 | **Nearby locations (map)** | `/map` | Dashboard → Quick Actions → Find nearby. Purpose: find offices/sites near you and get directions. |
-| **Help** | (no direct route) | Settings → Help (or in-app link to help content) |
 | **Not Found (404)** | `/404` or any unknown path | Any unmatched route |
 
 ---
@@ -70,8 +79,18 @@ These are the five tabs in the root shell (bottom navigation).
 /dashboard
 /search
 /notifications
+/notifications/:id
+/orders
+/orders/:id
+/analytics
+/users/add
+/help
+/settings/language
+/settings/about
 /profile
 /profile/edit
+/profile/addresses
+/profile/orders
 /settings
 /items
 /items/:id
@@ -97,6 +116,14 @@ These are the five tabs in the root shell (bottom navigation).
 | `lib/screens/dashboard_screen.dart` | Dashboard |
 | `lib/screens/search_screen.dart` | Search |
 | `lib/screens/notifications_screen.dart` | Notifications |
+| `lib/screens/notification_detail_screen.dart` | Notification Detail |
+| `lib/screens/order_history_screen.dart` | Order History |
+| `lib/screens/order_detail_screen.dart` | Order Detail |
+| `lib/screens/addresses_screen.dart` | Addresses |
+| `lib/screens/language_screen.dart` | Language |
+| `lib/screens/about_screen.dart` | About |
+| `lib/screens/analytics_screen.dart` | Analytics |
+| `lib/screens/add_user_screen.dart` | Add User |
 | `lib/screens/profile_screen.dart` | Profile |
 | `lib/screens/edit_profile_screen.dart` | Edit Profile |
 | `lib/screens/settings_screen.dart` | Settings |

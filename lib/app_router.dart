@@ -15,8 +15,16 @@ import 'screens/search_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/edit_profile_screen.dart';
 import 'screens/notifications_screen.dart';
+import 'screens/notification_detail_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/help_screen.dart';
+import 'screens/addresses_screen.dart';
+import 'screens/order_history_screen.dart';
+import 'screens/order_detail_screen.dart';
+import 'screens/language_screen.dart';
+import 'screens/about_screen.dart';
+import 'screens/analytics_screen.dart';
+import 'screens/add_user_screen.dart';
 import 'screens/create_form_screen.dart';
 import 'screens/edit_form_screen.dart';
 import 'screens/map_view_screen.dart';
@@ -73,6 +81,55 @@ GoRouter createAppRouter(Ref ref) {
           GoRoute(
             path: '/notifications',
             pageBuilder: (_, __) => NoTransitionPage(child: const NotificationsScreen()),
+          ),
+          GoRoute(
+            path: '/notifications/:id',
+            builder: (_, state) {
+              final extra = state.extra as Map<String, dynamic>?;
+              return NotificationDetailScreen(
+                id: state.pathParameters['id']!,
+                title: extra?['title'] as String? ?? 'Notification',
+                message: extra?['message'] as String? ?? '',
+                time: extra?['time'] as String? ?? '',
+                type: extra?['type'] as String? ?? 'system',
+              );
+            },
+          ),
+          GoRoute(
+            path: '/orders',
+            builder: (_, __) => const OrderHistoryScreen(),
+          ),
+          GoRoute(
+            path: '/orders/:id',
+            builder: (_, state) => OrderDetailScreen(id: state.pathParameters['id']!),
+          ),
+          GoRoute(
+            path: '/analytics',
+            builder: (_, __) => const AnalyticsScreen(),
+          ),
+          GoRoute(
+            path: '/users/add',
+            builder: (_, __) => const AddUserScreen(),
+          ),
+          GoRoute(
+            path: '/help',
+            builder: (_, __) => const HelpScreen(),
+          ),
+          GoRoute(
+            path: '/settings/language',
+            builder: (_, __) => const LanguageScreen(),
+          ),
+          GoRoute(
+            path: '/settings/about',
+            builder: (_, __) => const AboutScreen(),
+          ),
+          GoRoute(
+            path: '/profile/addresses',
+            builder: (_, __) => const AddressesScreen(),
+          ),
+          GoRoute(
+            path: '/profile/orders',
+            builder: (_, __) => const OrderHistoryScreen(),
           ),
           GoRoute(
             path: '/profile',
