@@ -10,7 +10,7 @@ class _MapLocation {
   final LatLng point;
   final String name;
   final String id;
-  const _MapLocation({required this.point, required this.name, required this.id});
+  _MapLocation({required this.point, required this.name, required this.id});
 }
 
 class MapViewScreen extends StatefulWidget {
@@ -27,11 +27,11 @@ class _MapViewScreenState extends State<MapViewScreen> {
   LatLng? _currentLocation;
   bool _locationLoading = false;
   String? _locationError;
-  static const _defaultCenter = LatLng(20.0, 0.0);
+  static final _defaultCenter = LatLng(20.0, 0.0);
   static const _defaultZoom = 2.0;
 
   /// Sample nearby locations (offices/sites) for demo. In a real app, load from API.
-  static const _nearbyLocations = [
+  static final _nearbyLocations = [
     _MapLocation(point: LatLng(19.99, 0.01), name: 'Main office', id: '1'),
     _MapLocation(point: LatLng(20.02, -0.02), name: 'Warehouse', id: '2'),
     _MapLocation(point: LatLng(19.97, 0.03), name: 'Site A', id: '3'),
@@ -172,13 +172,13 @@ class _MapViewScreenState extends State<MapViewScreen> {
                       point: _currentLocation!,
                       width: 44,
                       height: 44,
-                      child: Icon(Icons.my_location, size: 44, color: primary),
+                      builder: (_) => Icon(Icons.my_location, size: 44, color: primary),
                     ),
                   ..._nearbyLocations.map((loc) => Marker(
                         point: loc.point,
                         width: 36,
                         height: 36,
-                        child: Icon(Icons.place, size: 36, color: theme.colorScheme.secondary),
+                        builder: (_) => Icon(Icons.place, size: 36, color: theme.colorScheme.secondary),
                       )),
                 ],
               ),
