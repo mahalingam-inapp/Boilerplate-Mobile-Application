@@ -203,6 +203,7 @@ class ItemDetailsScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: AppButton(
+                  label: 'Wishlist',
                   variant: AppButtonVariant.outline,
                   size: AppButtonSize.lg,
                   leading: const Icon(Icons.favorite_border, size: 20),

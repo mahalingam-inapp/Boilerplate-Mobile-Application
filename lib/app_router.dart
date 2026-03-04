@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:riverpod/riverpod.dart';
 import 'core/auth_notifier.dart';
 import 'screens/root_screen.dart';
 import 'screens/auth/sign_in_screen.dart';
@@ -26,7 +27,7 @@ import 'screens/not_found_screen.dart';
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
-GoRouter createAppRouter(WidgetRef ref) {
+GoRouter createAppRouter(Ref ref) {
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
     initialLocation: '/auth/signin',

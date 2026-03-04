@@ -73,11 +73,44 @@ class _HelpScreenState extends State<HelpScreen> {
           const SizedBox(height: 24),
           Row(
             children: [
-              Expanded(child: AppCard(child: Column(children: [Icon(Icons.phone, size: 24, color: AppColors.primary), const SizedBox(height: 8), Text('Call Us', style: TextStyle(fontSize: 12, color: AppColors.mutedForeground))])),
+              Expanded(
+                child: AppCard(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.phone, size: 24, color: AppColors.primary),
+                      const SizedBox(height: 8),
+                      Text('Call Us', style: TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
+                    ],
+                  ),
+                ),
+              ),
               const SizedBox(width: 12),
-              Expanded(child: AppCard(child: Column(children: [Icon(Icons.mail, size: 24, color: AppColors.primary), const SizedBox(height: 8), Text('Email', style: TextStyle(fontSize: 12, color: AppColors.mutedForeground))])),
+              Expanded(
+                child: AppCard(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.mail, size: 24, color: AppColors.primary),
+                      const SizedBox(height: 8),
+                      Text('Email', style: TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
+                    ],
+                  ),
+                ),
+              ),
               const SizedBox(width: 12),
-              Expanded(child: AppCard(child: Column(children: [Icon(Icons.chat_bubble_outline, size: 24, color: AppColors.primary), const SizedBox(height: 8), Text('Chat', style: TextStyle(fontSize: 12, color: AppColors.mutedForeground))])),
+              Expanded(
+                child: AppCard(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.chat_bubble_outline, size: 24, color: AppColors.primary),
+                      const SizedBox(height: 8),
+                      Text('Chat', style: TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 24),

@@ -99,7 +99,7 @@ class AppButton extends StatelessWidget {
             padding: sizePadding,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-              border: side != null ? Border.all(color: side!.color, width: side!.width) : null,
+              border: side != null ? Border.all(color: side.color, width: side.width) : null,
             ),
             child: DefaultTextStyle(
               style: TextStyle(color: fg, fontSize: fontSize, fontWeight: FontWeight.w500),

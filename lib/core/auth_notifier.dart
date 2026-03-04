@@ -6,7 +6,7 @@ import 'auth_state.dart';
 final ChangeNotifier authRefreshListenable = ChangeNotifier();
 
 final authProvider =
-    StateNotifierProvider<AuthNotifier, AuthState>(AuthNotifier.new);
+    StateNotifierProvider<AuthNotifier, AuthState>((ref) => AuthNotifier());
 
 class AuthNotifier extends StateNotifier<AuthState> {
   AuthNotifier() : super(const AuthState(loading: false));

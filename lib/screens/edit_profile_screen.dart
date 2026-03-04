@@ -55,7 +55,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   Future<void> _submit() async {
     setState(() => loading = true);
     try {
-      await ref.read(authProvider.notifier).updateProfile({
+      ref.read(authProvider.notifier).updateProfile({
         'name': _nameController.text,
         'email': _emailController.text,
         'phone': _phoneController.text.isEmpty ? null : _phoneController.text,
@@ -89,7 +89,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 icon: const Icon(Icons.arrow_back),
               ),
               const SizedBox(width: 8),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Edit Profile', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500)),

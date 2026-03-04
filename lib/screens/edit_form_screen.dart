@@ -76,7 +76,7 @@ class _EditFormScreenState extends State<EditFormScreen> {
                 children: [
                   IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back)),
                   const SizedBox(width: 8),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Edit Item', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500)),
