@@ -201,6 +201,9 @@ class _MetricCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final mutedColor = isDark ? AppColorsDark.mutedForeground : AppColors.mutedForeground;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,19 +213,15 @@ class _MetricCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Icon(icon, size: 20, color: color),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(color: AppColors.greenSuccessBg, borderRadius: BorderRadius.circular(999)),
-                child: Text(change, style: const TextStyle(fontSize: 12, color: AppColors.greenSuccess)),
-              ),
+              Text(change, style: TextStyle(fontSize: 12, color: AppColors.greenSuccess, fontWeight: FontWeight.w500)),
             ],
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: TextStyle(fontSize: 14, color: AppColors.mutedForeground)),
+              Text(label, style: TextStyle(fontSize: 14, color: mutedColor)),
               const SizedBox(height: 4),
-              Text(value, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+              Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: theme.colorScheme.onSurface)),
             ],
           ),
         ],
