@@ -174,7 +174,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           if (isEmailMode) ...[
                             TextField(
                               controller: _emailController,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 hintText: 'Email address',
                                 prefixIcon: Icon(Icons.mail_outline, size: 20, color: muted),
                               ),
@@ -184,7 +184,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                             TextField(
                               controller: _passwordController,
                               obscureText: true,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 hintText: 'Password',
                                 prefixIcon: Icon(Icons.lock_outline, size: 20, color: muted),
                               ),
@@ -210,7 +210,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                             if (!otpSent) ...[
                               TextField(
                                 controller: _phoneOrEmailController,
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
                                   hintText: 'Phone or Email',
                                   prefixIcon: Icon(Icons.smartphone, size: 20, color: muted),
                                 ),
