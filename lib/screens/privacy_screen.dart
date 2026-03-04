@@ -4,7 +4,7 @@ import '../theme/app_theme.dart';
 import '../widgets/app_card.dart';
 
 class PrivacyScreen extends StatelessWidget {
-  const PrivacyScreen({super.key});
+  const PrivacyScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

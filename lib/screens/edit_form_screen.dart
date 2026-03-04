@@ -6,7 +6,7 @@ import '../widgets/app_button.dart';
 class EditFormScreen extends StatefulWidget {
   final String id;
 
-  const EditFormScreen({super.key, required this.id});
+  const EditFormScreen({Key? key, required this.id}) : super(key: key);
 
   @override
   State<EditFormScreen> createState() => _EditFormScreenState();

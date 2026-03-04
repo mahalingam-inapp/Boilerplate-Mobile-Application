@@ -11,7 +11,7 @@ class _Faq {
 }
 
 class HelpScreen extends StatefulWidget {
-  const HelpScreen({super.key});
+  const HelpScreen({Key? key}) : super(key: key);
 
   @override
   State<HelpScreen> createState() => _HelpScreenState();

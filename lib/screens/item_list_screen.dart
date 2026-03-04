@@ -5,8 +5,18 @@ import '../widgets/app_card.dart';
 import '../widgets/app_button.dart';
 import '../widgets/image_with_fallback.dart';
 
+class _Item {
+  final String id;
+  final String title;
+  final String category;
+  final String price;
+  final String image;
+  final String status;
+  const _Item({required this.id, required this.title, required this.category, required this.price, required this.image, required this.status});
+}
+
 class ItemListScreen extends StatefulWidget {
-  const ItemListScreen({super.key});
+  const ItemListScreen({Key? key}) : super(key: key);
 
   @override
   State<ItemListScreen> createState() => _ItemListScreenState();
@@ -186,14 +196,4 @@ class _ItemListScreenState extends State<ItemListScreen> {
       ),
     );
   }
-}
-
-class _Item {
-  final String id;
-  final String title;
-  final String category;
-  final String price;
-  final String image;
-  final String status;
-  const _Item({required this.id, required this.title, required this.category, required this.price, required this.image, required this.status});
 }

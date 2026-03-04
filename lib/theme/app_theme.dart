@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Matches BoilerplateApp theme.css - primary #ab1e23, foreground #2B2D42
 class AppColors {
   static const Color background = Color(0xFFFFFFFF);
   static const Color foreground = Color(0xFF2B2D42);
@@ -16,7 +15,7 @@ class AppColors {
   static const Color accentForeground = Color(0xFF2B2D42);
   static const Color destructive = Color(0xFFDC2626);
   static const Color destructiveForeground = Color(0xFFFFFFFF);
-  static const Color border = Color(0x1A2B2D42); // rgba(43,45,66,0.1)
+  static const Color border = Color(0x1A2B2D42);
   static const Color inputBackground = Color(0xFFF8F8FA);
   static const Color switchBackground = Color(0xFFD1D1D6);
   static const Color ring = Color(0xFFAB1E23);
@@ -33,12 +32,11 @@ class AppColors {
 class AppTheme {
   static const double radiusSm = 8.0;
   static const double radiusMd = 10.0;
-  static const double radiusLg = 12.0; // 0.75rem
+  static const double radiusLg = 12.0;
   static const double radiusXl = 16.0;
 
   static ThemeData get light {
     return ThemeData(
-      useMaterial3: true,
       brightness: Brightness.light,
       colorScheme: ColorScheme.light(
         surface: AppColors.background,

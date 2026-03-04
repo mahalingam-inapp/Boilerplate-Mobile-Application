@@ -1,27 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import '../core/auth_provider.dart';
+import '../core/auth_notifier.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_card.dart';
 import '../widgets/app_button.dart';
 import '../widgets/image_with_fallback.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class _StatItem {
+  final String label;
+  final String value;
+  const _StatItem(this.label, this.value);
+}
 
-  static const _stats = [(label: 'Orders', value: '24'), (label: 'Wishlist', value: '12'), (label: 'Reviews', value: '8')];
+class _MenuItem {
+  final IconData icon;
+  final String label;
+  final String path;
+  const _MenuItem({required this.icon, required this.label, required this.path});
+}
+
+class ProfileScreen extends ConsumerWidget {
+  const ProfileScreen({Key? key}) : super(key: key);
+
+  static const _stats = [
+    _StatItem('Orders', '24'),
+    _StatItem('Wishlist', '12'),
+    _StatItem('Reviews', '8'),
+  ];
   static const _menuItems = [
-    (icon: Icons.edit, label: 'Edit Profile', path: '/profile/edit'),
-    (icon: Icons.settings, label: 'Settings', path: '/settings'),
-    (icon: Icons.location_on, label: 'Addresses', path: '/profile/addresses'),
-    (icon: Icons.calendar_today, label: 'Order History', path: '/profile/orders'),
+    _MenuItem(icon: Icons.edit, label: 'Edit Profile', path: '/profile/edit'),
+    _MenuItem(icon: Icons.settings, label: 'Settings', path: '/settings'),
+    _MenuItem(icon: Icons.location_on, label: 'Addresses', path: '/profile/addresses'),
+    _MenuItem(icon: Icons.calendar_today, label: 'Order History', path: '/profile/orders'),
   ];
 
   @override
-  Widget build(BuildContext context) {
-    final auth = context.watch<AuthProvider>();
-    final user = auth.user;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authProvider);
+    final user = authState.user;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
@@ -51,20 +68,20 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(user?.name ?? '', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-                if (user?.email != null) ...[
+                if (user?.email != null && (user!.email).isNotEmpty) ...[
                   const SizedBox(height: 8),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     const Icon(Icons.mail_outline, size: 16, color: AppColors.mutedForeground),
                     const SizedBox(width: 8),
-                    Text(user!.email!, style: TextStyle(fontSize: 14, color: AppColors.mutedForeground)),
+                    Text(user.email, style: TextStyle(fontSize: 14, color: AppColors.mutedForeground)),
                   ]),
                 ],
-                if (user?.phone != null) ...[
+                if (user?.phone != null && (user!.phone).isNotEmpty) ...[
                   const SizedBox(height: 4),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     const Icon(Icons.phone_outlined, size: 16, color: AppColors.mutedForeground),
                     const SizedBox(width: 8),
-                    Text(user!.phone!, style: TextStyle(fontSize: 14, color: AppColors.mutedForeground)),
+                    Text(user.phone, style: TextStyle(fontSize: 14, color: AppColors.mutedForeground)),
                   ]),
                 ],
               ],
@@ -100,7 +117,7 @@ class ProfileScreen extends StatelessWidget {
                       Container(
                         width: 40,
                         height: 40,
-                        decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.1), shape: BoxShape.circle),
+                        decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1), shape: BoxShape.circle),
                         child: Icon(item.icon, size: 20, color: AppColors.primary),
                       ),
                       const SizedBox(width: 12),
@@ -118,7 +135,7 @@ class ProfileScreen extends StatelessWidget {
             variant: AppButtonVariant.outline,
             width: double.infinity,
             onPressed: () {
-              auth.signOut();
+              ref.read(authProvider.notifier).signOut();
               context.go('/auth/signin');
             },
           ),

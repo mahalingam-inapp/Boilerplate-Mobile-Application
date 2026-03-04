@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import '../../core/auth_provider.dart';
+import '../../core/auth_notifier.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/app_button.dart';
 
-class PasswordResetScreen extends StatefulWidget {
-  const PasswordResetScreen({super.key});
+class PasswordResetScreen extends ConsumerStatefulWidget {
+  const PasswordResetScreen({Key? key}) : super(key: key);
 
   @override
-  State<PasswordResetScreen> createState() => _PasswordResetScreenState();
+  ConsumerState<PasswordResetScreen> createState() => _PasswordResetScreenState();
 }
 
-class _PasswordResetScreenState extends State<PasswordResetScreen> {
+class _PasswordResetScreenState extends ConsumerState<PasswordResetScreen> {
   final _emailController = TextEditingController();
   bool loading = false;
   bool sent = false;
@@ -26,7 +26,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
   Future<void> _handleSubmit() async {
     setState(() => loading = true);
     try {
-      await context.read<AuthProvider>().resetPassword(_emailController.text.trim());
+      await ref.read(authProvider.notifier).resetPassword(_emailController.text.trim());
       if (mounted) {
         setState(() {
           loading = false;
@@ -89,7 +89,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                         borderRadius: BorderRadius.circular(24),
                         border: Border.all(color: AppColors.border),
                         boxShadow: [
-                          BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 12, offset: const Offset(0, 4)),
+                          BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 12, offset: const Offset(0, 4)),
                         ],
                       ),
                       child: sent
@@ -99,7 +99,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                                   width: 64,
                                   height: 64,
                                   decoration: BoxDecoration(
-                                    color: AppColors.primary.withValues(alpha: 0.1),
+                                    color: AppColors.primary.withOpacity(0.1),
                                     shape: BoxShape.circle,
                                   ),
                                   child: const Icon(Icons.mail_outline, size: 32, color: AppColors.primary),

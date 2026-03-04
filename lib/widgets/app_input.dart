@@ -16,7 +16,7 @@ class AppInput extends StatelessWidget {
   final EdgeInsets? contentPadding;
 
   const AppInput({
-    super.key,
+    Key? key,
     this.label,
     this.placeholder,
     this.error,
@@ -28,7 +28,7 @@ class AppInput extends StatelessWidget {
     this.inputFormatters,
     this.prefixIcon,
     this.contentPadding,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

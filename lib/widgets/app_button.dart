@@ -14,7 +14,7 @@ class AppButton extends StatelessWidget {
   final double? width;
 
   const AppButton({
-    super.key,
+    Key? key,
     required this.label,
     this.variant = AppButtonVariant.primary,
     this.size = AppButtonSize.md,
@@ -22,21 +22,53 @@ class AppButton extends StatelessWidget {
     this.isLoading = false,
     this.leading,
     this.width,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final disabled = onPressed == null || isLoading;
-    final sizePadding = switch (size) {
-      AppButtonSize.sm => const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      AppButtonSize.md => const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      AppButtonSize.lg => const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-    };
-    final fontSize = switch (size) {
-      AppButtonSize.sm => 14.0,
-      AppButtonSize.md => 16.0,
-      AppButtonSize.lg => 18.0,
-    };
+    EdgeInsets sizePadding;
+    double fontSize;
+    switch (size) {
+      case AppButtonSize.sm:
+        sizePadding = const EdgeInsets.symmetric(horizontal: 12, vertical: 6);
+        fontSize = 14.0;
+        break;
+      case AppButtonSize.md:
+        sizePadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 10);
+        fontSize = 16.0;
+        break;
+      case AppButtonSize.lg:
+        sizePadding = const EdgeInsets.symmetric(horizontal: 24, vertical: 12);
+        fontSize = 18.0;
+        break;
+    }
+
+    Color bg;
+    Color fg;
+    BorderSide? side;
+    switch (variant) {
+      case AppButtonVariant.primary:
+        bg = disabled ? AppColors.primary.withOpacity(0.5) : AppColors.primary;
+        fg = AppColors.primaryForeground;
+        side = null;
+        break;
+      case AppButtonVariant.secondary:
+        bg = disabled ? AppColors.secondary.withOpacity(0.5) : AppColors.secondary;
+        fg = AppColors.secondaryForeground;
+        side = null;
+        break;
+      case AppButtonVariant.outline:
+        bg = Colors.transparent;
+        fg = AppColors.foreground;
+        side = const BorderSide(color: AppColors.border, width: 2);
+        break;
+      case AppButtonVariant.ghost:
+        bg = Colors.transparent;
+        fg = AppColors.foreground;
+        side = null;
+        break;
+    }
 
     Widget child = Row(
       mainAxisSize: MainAxisSize.min,
@@ -55,29 +87,6 @@ class AppButton extends StatelessWidget {
       ],
     );
 
-    final (bg, fg, side) = switch (variant) {
-      AppButtonVariant.primary => (
-          disabled ? AppColors.primary.withValues(alpha: 0.5) : AppColors.primary,
-          AppColors.primaryForeground,
-          null as BorderSide?,
-        ),
-      AppButtonVariant.secondary => (
-          disabled ? AppColors.secondary.withValues(alpha: 0.5) : AppColors.secondary,
-          AppColors.secondaryForeground,
-          null as BorderSide?,
-        ),
-      AppButtonVariant.outline => (
-          Colors.transparent,
-          AppColors.foreground,
-          BorderSide(color: AppColors.border, width: 2),
-        ),
-      AppButtonVariant.ghost => (
-          Colors.transparent,
-          AppColors.foreground,
-          null as BorderSide?,
-        ),
-    };
-
     return SizedBox(
       width: width,
       child: Material(
@@ -90,7 +99,7 @@ class AppButton extends StatelessWidget {
             padding: sizePadding,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-              border: side != null ? Border.all(color: side.color, width: side.width) : null,
+              border: side != null ? Border.all(color: side!.color, width: side!.width) : null,
             ),
             child: DefaultTextStyle(
               style: TextStyle(color: fg, fontSize: fontSize, fontWeight: FontWeight.w500),

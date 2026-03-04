@@ -4,7 +4,7 @@ import '../theme/app_theme.dart';
 import '../widgets/app_card.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  const SettingsScreen({Key? key}) : super(key: key);
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -114,7 +114,7 @@ class _SettingsRow extends StatelessWidget {
             Container(
               width: 40,
               height: 40,
-              decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.1), shape: BoxShape.circle),
+              decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1), shape: BoxShape.circle),
               child: Icon(icon, size: 20, color: AppColors.primary),
             ),
             const SizedBox(width: 12),

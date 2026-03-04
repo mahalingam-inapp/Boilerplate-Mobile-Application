@@ -9,14 +9,14 @@ class ImageWithFallback extends StatelessWidget {
   final BorderRadius? borderRadius;
 
   const ImageWithFallback({
-    super.key,
+    Key? key,
     required this.src,
     this.alt,
     this.fit = BoxFit.cover,
     this.width,
     this.height,
     this.borderRadius,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -5,8 +5,17 @@ import '../widgets/app_card.dart';
 import '../widgets/app_button.dart';
 import '../widgets/image_with_fallback.dart';
 
+class _SearchItem {
+  final String id;
+  final String title;
+  final String category;
+  final String price;
+  final String image;
+  const _SearchItem({required this.id, required this.title, required this.category, required this.price, required this.image});
+}
+
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({Key? key}) : super(key: key);
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -198,13 +207,4 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
     );
   }
-}
-
-class _SearchItem {
-  final String id;
-  final String title;
-  final String category;
-  final String price;
-  final String image;
-  const _SearchItem({required this.id, required this.title, required this.category, required this.price, required this.image});
 }

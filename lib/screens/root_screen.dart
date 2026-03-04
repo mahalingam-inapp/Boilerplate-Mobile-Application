@@ -2,17 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../theme/app_theme.dart';
 
+class _NavItem {
+  final String path;
+  final String label;
+  final IconData icon;
+  final IconData activeIcon;
+  const _NavItem({required this.path, required this.label, required this.icon, required this.activeIcon});
+}
+
 class RootScreen extends StatelessWidget {
   final Widget child;
 
-  const RootScreen({super.key, required this.child});
+  const RootScreen({Key? key, required this.child}) : super(key: key);
 
   static const _navItems = [
-    (path: '/dashboard', label: 'Home', icon: Icons.home_outlined, activeIcon: Icons.home),
-    (path: '/search', label: 'Search', icon: Icons.search, activeIcon: Icons.search),
-    (path: '/notifications', label: 'Notifications', icon: Icons.notifications_outlined, activeIcon: Icons.notifications),
-    (path: '/profile', label: 'Profile', icon: Icons.person_outline, activeIcon: Icons.person),
-    (path: '/settings', label: 'Settings', icon: Icons.settings_outlined, activeIcon: Icons.settings),
+    _NavItem(path: '/dashboard', label: 'Home', icon: Icons.home_outlined, activeIcon: Icons.home),
+    _NavItem(path: '/search', label: 'Search', icon: Icons.search, activeIcon: Icons.search),
+    _NavItem(path: '/notifications', label: 'Notifications', icon: Icons.notifications_outlined, activeIcon: Icons.notifications),
+    _NavItem(path: '/profile', label: 'Profile', icon: Icons.person_outline, activeIcon: Icons.person),
+    _NavItem(path: '/settings', label: 'Settings', icon: Icons.settings_outlined, activeIcon: Icons.settings),
   ];
 
   @override

@@ -8,7 +8,7 @@ import '../widgets/image_with_fallback.dart';
 class ItemDetailsScreen extends StatelessWidget {
   final String id;
 
-  const ItemDetailsScreen({super.key, required this.id});
+  const ItemDetailsScreen({Key? key, required this.id}) : super(key: key);
 
   static final _items = <String, Map<String, dynamic>>{
     '1': {
@@ -83,7 +83,7 @@ class ItemDetailsScreen extends StatelessWidget {
                   top: MediaQuery.of(context).padding.top + 8,
                   left: 24,
                   child: Material(
-                    color: AppColors.card.withValues(alpha: 0.9),
+                    color: AppColors.card.withOpacity(0.9),
                     borderRadius: BorderRadius.circular(20),
                     child: InkWell(
                       onTap: () => context.pop(),
@@ -235,7 +235,7 @@ class _CircleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.card.withValues(alpha: 0.9),
+      color: AppColors.card.withOpacity(0.9),
       borderRadius: BorderRadius.circular(20),
       child: InkWell(
         onTap: () {},

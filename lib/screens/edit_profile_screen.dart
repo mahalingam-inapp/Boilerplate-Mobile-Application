@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import '../core/auth_provider.dart';
+import '../core/auth_notifier.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_card.dart';
 import '../widgets/app_button.dart';
 import '../widgets/image_with_fallback.dart';
 
-class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+class EditProfileScreen extends ConsumerStatefulWidget {
+  const EditProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<EditProfileScreen> createState() => _EditProfileScreenState();
+  ConsumerState<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
-class _EditProfileScreenState extends State<EditProfileScreen> {
+class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _phoneController;
   late TextEditingController _bioController;
   late TextEditingController _locationController;
   bool loading = false;
+  bool _initialized = false;
 
   @override
   void initState() {
     super.initState();
-    final user = context.read<AuthProvider>().user;
-    _nameController = TextEditingController(text: user?.name ?? '');
-    _emailController = TextEditingController(text: user?.email ?? '');
-    _phoneController = TextEditingController(text: user?.phone ?? '');
+    _nameController = TextEditingController();
+    _emailController = TextEditingController();
+    _phoneController = TextEditingController();
     _bioController = TextEditingController();
     _locationController = TextEditingController();
   }
@@ -43,10 +43,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.dispose();
   }
 
+  void _initFromUser() {
+    if (_initialized) return;
+    final user = ref.read(authProvider).user;
+    _nameController.text = user?.name ?? '';
+    _emailController.text = user?.email ?? '';
+    _phoneController.text = user?.phone ?? '';
+    _initialized = true;
+  }
+
   Future<void> _submit() async {
     setState(() => loading = true);
     try {
-      await context.read<AuthProvider>().updateProfile({
+      await ref.read(authProvider.notifier).updateProfile({
         'name': _nameController.text,
         'email': _emailController.text,
         'phone': _phoneController.text.isEmpty ? null : _phoneController.text,
@@ -66,7 +75,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.watch<AuthProvider>().user;
+    _initFromUser();
+    final user = ref.watch(authProvider).user;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(

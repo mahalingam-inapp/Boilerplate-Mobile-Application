@@ -1,35 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../core/auth_provider.dart';
+import '../core/auth_notifier.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_card.dart';
 
-class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
+class _AreaPoint {
+  final String name;
+  final double value;
+  const _AreaPoint(this.name, this.value);
+}
+
+class _BarPoint {
+  final String name;
+  final double value;
+  const _BarPoint(this.name, this.value);
+}
+
+class DashboardScreen extends ConsumerWidget {
+  const DashboardScreen({Key? key}) : super(key: key);
 
   static const _areaData = [
-    (name: 'Mon', value: 400.0),
-    (name: 'Tue', value: 300.0),
-    (name: 'Wed', value: 600.0),
-    (name: 'Thu', value: 800.0),
-    (name: 'Fri', value: 500.0),
-    (name: 'Sat', value: 700.0),
-    (name: 'Sun', value: 900.0),
+    _AreaPoint('Mon', 400.0),
+    _AreaPoint('Tue', 300.0),
+    _AreaPoint('Wed', 600.0),
+    _AreaPoint('Thu', 800.0),
+    _AreaPoint('Fri', 500.0),
+    _AreaPoint('Sat', 700.0),
+    _AreaPoint('Sun', 900.0),
   ];
 
   static const _barData = [
-    (name: 'Jan', value: 4000.0),
-    (name: 'Feb', value: 3000.0),
-    (name: 'Mar', value: 5000.0),
-    (name: 'Apr', value: 4500.0),
-    (name: 'May', value: 6000.0),
-    (name: 'Jun', value: 5500.0),
+    _BarPoint('Jan', 4000.0),
+    _BarPoint('Feb', 3000.0),
+    _BarPoint('Mar', 5000.0),
+    _BarPoint('Apr', 4500.0),
+    _BarPoint('May', 6000.0),
+    _BarPoint('Jun', 5500.0),
   ];
 
   @override
-  Widget build(BuildContext context) {
-    final user = context.watch<AuthProvider>().user;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authProvider).user;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -75,9 +87,9 @@ class DashboardScreen extends StatelessWidget {
                           sideTitles: SideTitles(
                             showTitles: true,
                             getTitlesWidget: (v, meta) {
-                            final i = v.toInt().clamp(0, _areaData.length - 1);
-                            return Text(_areaData[i].name, style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground));
-                          },
+                              final i = v.toInt().clamp(0, _areaData.length - 1);
+                              return Text(_areaData[i].name, style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground));
+                            },
                           ),
                         ),
                       ),
@@ -88,7 +100,7 @@ class DashboardScreen extends StatelessWidget {
                           isCurved: true,
                           color: AppColors.primary,
                           barWidth: 2,
-                          belowBarData: BarAreaData(show: true, color: AppColors.primary.withValues(alpha: 0.2)),
+                          belowBarData: BarAreaData(show: true, color: AppColors.primary.withOpacity(0.2)),
                         ),
                       ],
                     ),
@@ -121,16 +133,22 @@ class DashboardScreen extends StatelessWidget {
                           sideTitles: SideTitles(
                             showTitles: true,
                             getTitlesWidget: (v, meta) {
-                            final i = v.toInt().clamp(0, _barData.length - 1);
-                            return Text(_barData[i].name, style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground));
-                          },
+                              final i = v.toInt().clamp(0, _barData.length - 1);
+                              return Text(_barData[i].name, style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground));
+                            },
                           ),
                         ),
                       ),
                       borderData: FlBorderData(show: false),
                       barGroups: _barData.asMap().entries.map((e) => BarChartGroupData(
                         x: e.key,
-                        barRods: [BarChartRodData(toY: e.value.value, color: AppColors.primary, width: 24, borderRadius: const BorderRadius.vertical(top: Radius.circular(8))),
+                        barRods: [
+                          BarChartRodData(
+                            toY: e.value.value,
+                            color: AppColors.primary,
+                            width: 24,
+                            borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+                          ),
                         ],
                         showingTooltipIndicators: [0],
                       )).toList(),
@@ -221,7 +239,7 @@ class _QuickAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: color.withValues(alpha: 0.08),
+      color: color.withOpacity(0.08),
       borderRadius: BorderRadius.circular(AppTheme.radiusLg),
       child: InkWell(
         onTap: () {},

@@ -4,7 +4,7 @@ import '../theme/app_theme.dart';
 import '../widgets/app_card.dart';
 
 class TermsScreen extends StatelessWidget {
-  const TermsScreen({super.key});
+  const TermsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

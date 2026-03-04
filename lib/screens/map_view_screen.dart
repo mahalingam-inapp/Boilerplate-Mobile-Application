@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_card.dart';
 import '../widgets/app_button.dart';
 
-class _Location {
-  final int id;
-  final String name;
-  final LatLng position;
-  final String address;
-  const _Location({required this.id, required this.name, required this.position, required this.address});
-}
-
 class MapViewScreen extends StatefulWidget {
-  const MapViewScreen({super.key});
+  const MapViewScreen({Key? key}) : super(key: key);
 
   @override
   State<MapViewScreen> createState() => _MapViewScreenState();
@@ -21,39 +12,11 @@ class MapViewScreen extends StatefulWidget {
 
 class _MapViewScreenState extends State<MapViewScreen> {
   final _searchController = TextEditingController();
-  static const _locations = [
-    _Location(id: 1, name: 'Store Location 1', position: LatLng(37.7749, -122.4194), address: '123 Market St, San Francisco'),
-    _Location(id: 2, name: 'Store Location 2', position: LatLng(37.7849, -122.4094), address: '456 Mission St, San Francisco'),
-    _Location(id: 3, name: 'Store Location 3', position: LatLng(37.7649, -122.4294), address: '789 Howard St, San Francisco'),
-  ];
-
-  late GoogleMapController _mapController;
-  _Location _selected = _locations[0];
-  Set<Marker> _markers = {};
-
-  @override
-  void initState() {
-    super.initState();
-    _markers = {
-      for (final loc in _locations)
-        Marker(
-          markerId: MarkerId(loc.id.toString()),
-          position: loc.position,
-          onTap: () => setState(() => _selected = loc),
-        ),
-    };
-  }
 
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
-  }
-
-  List<_Location> get _filteredLocations {
-    final q = _searchController.text.trim().toLowerCase();
-    if (q.isEmpty) return _locations;
-    return _locations.where((l) => l.name.toLowerCase().contains(q) || l.address.toLowerCase().contains(q)).toList();
   }
 
   @override
@@ -78,21 +41,33 @@ class _MapViewScreenState extends State<MapViewScreen> {
                 variant: AppButtonVariant.outline,
                 label: 'Use My Location',
                 leading: const Icon(Icons.navigation, size: 16),
-                onPressed: () {
-                  _mapController.animateCamera(CameraUpdate.newLatLng(_selected.position));
-                },
+                onPressed: () {},
               ),
             ],
           ),
         ),
         Expanded(
-          child: GoogleMap(
-            initialCameraPosition: CameraPosition(target: _selected.position, zoom: 13),
-            onMapCreated: (c) {
-              _mapController = c;
-            },
-            markers: _markers,
-            onTap: (_) {},
+          child: Container(
+            width: double.infinity,
+            color: AppColors.accent,
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.map_outlined, size: 64, color: AppColors.mutedForeground),
+                const SizedBox(height: 16),
+                const Text('Map view', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Text(
+                    'Maps require the google_maps_flutter package. Add it to your project to display a map here.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 14, color: AppColors.mutedForeground),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         Container(
@@ -105,7 +80,7 @@ class _MapViewScreenState extends State<MapViewScreen> {
                 Container(
                   width: 40,
                   height: 40,
-                  decoration: BoxDecoration(color: AppColors.primary.withValues(alpha: 0.1), shape: BoxShape.circle),
+                  decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1), shape: BoxShape.circle),
                   child: const Icon(Icons.location_on, size: 20, color: AppColors.primary),
                 ),
                 const SizedBox(width: 12),
@@ -113,9 +88,9 @@ class _MapViewScreenState extends State<MapViewScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(_selected.name, style: const TextStyle(fontWeight: FontWeight.w500)),
+                      const Text('Selected location', style: TextStyle(fontWeight: FontWeight.w500)),
                       const SizedBox(height: 4),
-                      Text(_selected.address, style: TextStyle(fontSize: 14, color: AppColors.mutedForeground)),
+                      Text('Enable google_maps_flutter to show addresses', style: TextStyle(fontSize: 14, color: AppColors.mutedForeground)),
                       const SizedBox(height: 12),
                       Row(
                         children: [

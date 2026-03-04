@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import '../../core/auth_provider.dart';
+import '../../core/auth_notifier.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/app_button.dart';
-import '../../widgets/app_input.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+class SignInScreen extends ConsumerStatefulWidget {
+  const SignInScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  ConsumerState<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignInScreenState extends ConsumerState<SignInScreen> {
   bool isEmailMode = true;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -34,7 +33,7 @@ class _SignInScreenState extends State<SignInScreen> {
   Future<void> _handleEmailSignIn() async {
     setState(() => loading = true);
     try {
-      await context.read<AuthProvider>().signIn(
+      await ref.read(authProvider.notifier).signIn(
             _emailController.text.trim(),
             _passwordController.text,
           );
@@ -72,7 +71,7 @@ class _SignInScreenState extends State<SignInScreen> {
   Future<void> _handleOTPSignIn() async {
     setState(() => loading = true);
     try {
-      await context.read<AuthProvider>().signInWithOTP(
+      await ref.read(authProvider.notifier).signInWithOTP(
             _phoneOrEmailController.text.trim(),
             _otpController.text,
           );
@@ -124,7 +123,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         borderRadius: BorderRadius.circular(24),
                         border: Border.all(color: AppColors.border),
                         boxShadow: [
-                          BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 12, offset: const Offset(0, 4)),
+                          BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 12, offset: const Offset(0, 4)),
                         ],
                       ),
                       child: Column(

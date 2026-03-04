@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_card.dart';
-import '../widgets/app_button.dart';
 
 class _Notification {
   final String id;
@@ -14,7 +13,7 @@ class _Notification {
 }
 
 class NotificationsScreen extends StatefulWidget {
-  const NotificationsScreen({super.key});
+  const NotificationsScreen({Key? key}) : super(key: key);
 
   @override
   State<NotificationsScreen> createState() => _NotificationsScreenState();
@@ -153,7 +152,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         Container(
                           width: 40,
                           height: 40,
-                          decoration: BoxDecoration(color: _iconColor(n.type).withValues(alpha: 0.15), shape: BoxShape.circle),
+                          decoration: BoxDecoration(color: _iconColor(n.type).withOpacity(0.15), shape: BoxShape.circle),
                           child: Icon(_icon(n.type), size: 20, color: _iconColor(n.type)),
                         ),
                         const SizedBox(width: 12),

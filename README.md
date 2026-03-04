@@ -1,38 +1,28 @@
-# Boilerplate App (Flutter)
+# Boilerplate App (Flutter) – SMA package spec
 
-Flutter migration of the React **BoilerplateApp**, with the same look and feel: theme (primary `#ab1e23`, background, cards, muted text), bottom navigation, and all screens and flows.
+Same app as **BoilerplateAppFlutter** (look and behaviour), but using the **same package spec as the SMA app**: Riverpod, go_router 12, fl_chart 0.62, Dart 2.19.
 
-## Features
+## Package spec (matches SMA)
 
-- **Auth**: Sign in (email/password or OTP), Sign up, Password reset, OTP verification
-- **Main shell**: Bottom nav — Home, Search, Notifications, Profile, Settings
-- **Screens**: Dashboard (metrics + charts), Items list (grid/list), Item details, Search (with filters), Profile, Edit profile, Notifications, Settings (toggles + links), Help (FAQ + contact form), Create/Edit item forms, Map view, Terms, Privacy, 404
+- **SDK:** `>=2.19.2 <3.0.0`
+- **dependencies:** `flutter`, `flutter_riverpod: 2.3.6`, `go_router: 12.0.3`, `fl_chart: 0.62.0`
+- **dependency_overrides:** `riverpod: 2.3.7`
 
-## Setup
+No `provider`, `shared_preferences`, `google_maps_flutter`, or `flutter_svg`.
 
-1. Install [Flutter](https://flutter.dev/docs/get-started/install).
-2. From this directory run:
-   ```bash
-   cd BoilerplateAppFlutter
-   flutter pub get
-   flutter run
-   ```
-3. For **Google Maps** on iOS/Android, add your API key:
-   - Android: `android/app/src/main/AndroidManifest.xml` → add key under `<application>`
-   - iOS: `ios/Runner/AppDelegate.swift` → add key in `GMSServices.provideAPIKey("YOUR_KEY")`
+## Differences from BoilerplateAppFlutter
 
-## Project structure
+- **State:** Auth is managed with **Riverpod** (`StateNotifierProvider` + `AuthNotifier`). Session is **in-memory only** (no `shared_preferences`).
+- **Routing:** **go_router 12** with redirect; router refresh uses a `ChangeNotifier` notified on auth changes.
+- **Map:** Map screen is a **placeholder** (no `google_maps_flutter`). Replace with your map package if needed.
+- **Dart 2.19:** No records or switch expressions; `Key? key` and `withOpacity()` used where needed.
 
-- `lib/theme/app_theme.dart` — Colors and theme (matches React `theme.css`)
-- `lib/core/auth_provider.dart` — Auth state (mock sign in/up/out, `shared_preferences`)
-- `lib/widgets/` — `AppButton`, `AppInput`, `AppCard`, `ImageWithFallback`
-- `lib/screens/` — All screens; auth under `screens/auth/`
-- `lib/app_router.dart` — `go_router` routes and redirect (auth required for app routes)
+## Run
 
-## Dependencies
+```bash
+cd BoilerplateAppFlutterSMA
+flutter pub get
+flutter run
+```
 
-- `go_router` — Routing and redirect
-- `provider` — Auth state
-- `shared_preferences` — Persist user/token (mock)
-- `fl_chart` — Dashboard charts
-- `google_maps_flutter` — Map view
+If platform folders are missing, run `flutter create .` in this directory first.

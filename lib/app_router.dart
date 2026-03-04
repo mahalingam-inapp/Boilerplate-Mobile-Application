@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'core/auth_provider.dart';
+import 'core/auth_notifier.dart';
 import 'screens/root_screen.dart';
 import 'screens/auth/sign_in_screen.dart';
 import 'screens/auth/sign_up_screen.dart';
@@ -25,12 +26,13 @@ import 'screens/not_found_screen.dart';
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
-GoRouter createRouter(AuthProvider auth) {
+GoRouter createAppRouter(WidgetRef ref) {
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
     initialLocation: '/auth/signin',
-    refreshListenable: auth,
-    redirect: (context, state) {
+    refreshListenable: authRefreshListenable,
+    redirect: (BuildContext context, GoRouterState state) {
+      final auth = ProviderScope.containerOf(context).read(authProvider);
       if (auth.loading) return null;
       final isAuthRoute = state.matchedLocation.startsWith('/auth');
       if (isAuthRoute) return null;
@@ -61,27 +63,27 @@ GoRouter createRouter(AuthProvider auth) {
         routes: [
           GoRoute(
             path: '/dashboard',
-            pageBuilder: (_, __) => const NoTransitionPage(child: DashboardScreen()),
+            pageBuilder: (_, __) => NoTransitionPage(child: const DashboardScreen()),
           ),
           GoRoute(
             path: '/search',
-            pageBuilder: (_, __) => const NoTransitionPage(child: SearchScreen()),
+            pageBuilder: (_, __) => NoTransitionPage(child: const SearchScreen()),
           ),
           GoRoute(
             path: '/notifications',
-            pageBuilder: (_, __) => const NoTransitionPage(child: NotificationsScreen()),
+            pageBuilder: (_, __) => NoTransitionPage(child: const NotificationsScreen()),
           ),
           GoRoute(
             path: '/profile',
-            pageBuilder: (_, __) => const NoTransitionPage(child: ProfileScreen()),
+            pageBuilder: (_, __) => NoTransitionPage(child: const ProfileScreen()),
           ),
           GoRoute(
             path: '/settings',
-            pageBuilder: (_, __) => const NoTransitionPage(child: SettingsScreen()),
+            pageBuilder: (_, __) => NoTransitionPage(child: const SettingsScreen()),
           ),
           GoRoute(
             path: '/items',
-            pageBuilder: (_, __) => const NoTransitionPage(child: ItemListScreen()),
+            pageBuilder: (_, __) => NoTransitionPage(child: const ItemListScreen()),
           ),
           GoRoute(
             path: '/items/:id',
@@ -120,4 +122,21 @@ GoRouter createRouter(AuthProvider auth) {
     ],
     errorBuilder: (_, __) => const NotFoundScreen(),
   );
+}
+
+final goRouterProvider = Provider<GoRouter>((ref) {
+  return createAppRouter(ref);
+});
+
+class NoTransitionPage extends CustomTransitionPage<void> {
+  NoTransitionPage({required Widget child})
+      : super(
+          child: child,
+          transitionsBuilder: (BuildContext context,
+              Animation<double> animation,
+              Animation<double> secondaryAnimation,
+              Widget child) {
+            return child;
+          },
+        );
 }
