@@ -72,15 +72,17 @@ class _HelpScreenState extends State<HelpScreen> {
           Text("We're here to help you", style: TextStyle(color: AppColors.mutedForeground)),
           const SizedBox(height: 24),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
                 child: AppCard(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.phone, size: 24, color: AppColors.primary),
+                      Icon(Icons.phone, size: 24, color: Theme.of(context).colorScheme.primary),
                       const SizedBox(height: 8),
-                      Text('Call Us', style: TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
+                      Text('Call Us', style: TextStyle(fontSize: 12, color: Theme.of(context).brightness == Brightness.dark ? AppColorsDark.mutedForeground : AppColors.mutedForeground)),
                     ],
                   ),
                 ),
@@ -90,10 +92,11 @@ class _HelpScreenState extends State<HelpScreen> {
                 child: AppCard(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.mail, size: 24, color: AppColors.primary),
+                      Icon(Icons.mail, size: 24, color: Theme.of(context).colorScheme.primary),
                       const SizedBox(height: 8),
-                      Text('Email', style: TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
+                      Text('Email', style: TextStyle(fontSize: 12, color: Theme.of(context).brightness == Brightness.dark ? AppColorsDark.mutedForeground : AppColors.mutedForeground)),
                     ],
                   ),
                 ),
@@ -103,10 +106,11 @@ class _HelpScreenState extends State<HelpScreen> {
                 child: AppCard(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.chat_bubble_outline, size: 24, color: AppColors.primary),
+                      Icon(Icons.chat_bubble_outline, size: 24, color: Theme.of(context).colorScheme.primary),
                       const SizedBox(height: 8),
-                      Text('Chat', style: TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
+                      Text('Chat', style: TextStyle(fontSize: 12, color: Theme.of(context).brightness == Brightness.dark ? AppColorsDark.mutedForeground : AppColors.mutedForeground)),
                     ],
                   ),
                 ),

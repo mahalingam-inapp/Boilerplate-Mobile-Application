@@ -71,8 +71,9 @@ class _SearchScreenState extends State<SearchScreen> {
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('${results.length} results', style: TextStyle(color: AppColors.mutedForeground)),
+              Text('${results.length} results', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? AppColorsDark.mutedForeground : AppColors.mutedForeground)),
               AppButton(
                 label: 'Filters',
                 variant: AppButtonVariant.outline,

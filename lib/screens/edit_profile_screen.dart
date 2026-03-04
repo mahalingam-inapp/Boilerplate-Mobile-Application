@@ -83,18 +83,22 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               IconButton(
                 onPressed: () => context.pop(),
                 icon: const Icon(Icons.arrow_back),
               ),
               const SizedBox(width: 8),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Edit Profile', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500)),
-                  Text('Update your information', style: TextStyle(color: AppColors.mutedForeground)),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('Edit Profile', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface)),
+                    Text('Update your information', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? AppColorsDark.mutedForeground : AppColors.mutedForeground)),
+                  ],
+                ),
               ),
             ],
           ),

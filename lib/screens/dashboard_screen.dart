@@ -42,14 +42,15 @@ class DashboardScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authProvider).user;
+    final theme = Theme.of(context);
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Welcome back, ${user?.name ?? ''}!', style: Theme.of(context).textTheme.headlineMedium),
+          Text('Welcome back, ${user?.name ?? ''}!', style: theme.textTheme.headlineMedium?.copyWith(color: theme.colorScheme.onSurface)),
           const SizedBox(height: 4),
-          Text("Here's what's happening today", style: TextStyle(color: AppColors.mutedForeground)),
+          Text("Here's what's happening today", style: TextStyle(color: theme.brightness == Brightness.dark ? AppColorsDark.mutedForeground : AppColors.mutedForeground)),
           const SizedBox(height: 24),
           GridView.count(
             shrinkWrap: true,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Light theme colors (matches React theme.css :root)
 class AppColors {
   static const Color background = Color(0xFFFFFFFF);
   static const Color foreground = Color(0xFF2B2D42);
@@ -27,6 +28,29 @@ class AppColors {
   static const Color greenSuccessBg = Color(0xFFF0FDF4);
   static const Color yellowWarning = Color(0xFFCA8A04);
   static const Color yellowWarningBg = Color(0xFFFEF9C3);
+}
+
+/// Dark theme colors (matches React theme.css .dark)
+class AppColorsDark {
+  static const Color background = Color(0xFF1A1B29);
+  static const Color foreground = Color(0xFFFFFFFF);
+  static const Color card = Color(0xFF2B2D42);
+  static const Color cardForeground = Color(0xFFFFFFFF);
+  static const Color primary = Color(0xFFAB1E23);
+  static const Color primaryForeground = Color(0xFFFFFFFF);
+  static const Color secondary = Color(0xFF3D3F57);
+  static const Color secondaryForeground = Color(0xFFFFFFFF);
+  static const Color muted = Color(0xFF3D3F57);
+  static const Color mutedForeground = Color(0xFF9C9FAE);
+  static const Color accent = Color(0xFF3D3F57);
+  static const Color accentForeground = Color(0xFFFFFFFF);
+  static const Color border = Color(0x1AFFFFFF);
+  static const Color inputBackground = Color(0xFF2B2D42);
+  static const Color ring = Color(0xFFAB1E23);
+  static const Color greenSuccess = Color(0xFF16A34A);
+  static const Color greenSuccessBg = Color(0xFF1B3D1F);
+  static const Color yellowWarning = Color(0xFFCA8A04);
+  static const Color yellowWarningBg = Color(0xFF3D3500);
 }
 
 class AppTheme {
@@ -82,4 +106,56 @@ class AppTheme {
       ),
     );
   }
+
+  static ThemeData get dark {
+    return ThemeData(
+      brightness: Brightness.dark,
+      colorScheme: ColorScheme.dark(
+        surface: AppColorsDark.background,
+        onSurface: AppColorsDark.foreground,
+        primary: AppColorsDark.primary,
+        onPrimary: AppColorsDark.primaryForeground,
+        secondary: AppColorsDark.secondary,
+        onSecondary: AppColorsDark.secondaryForeground,
+        error: AppColors.destructive,
+        outline: AppColorsDark.border,
+      ),
+      scaffoldBackgroundColor: AppColorsDark.background,
+      cardTheme: CardTheme(
+        color: AppColorsDark.card,
+        elevation: 1,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusLg * 1.5),
+          side: const BorderSide(color: AppColorsDark.border, width: 1),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColorsDark.inputBackground,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(radiusLg)),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radiusLg),
+          borderSide: const BorderSide(color: AppColorsDark.border),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radiusLg),
+          borderSide: const BorderSide(color: AppColorsDark.ring, width: 2),
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      ),
+      textTheme: const TextTheme(
+        headlineLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: AppColorsDark.foreground),
+        headlineMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+        titleLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+        titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+        bodyMedium: TextStyle(fontSize: 14),
+        labelLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+      ),
+    );
+  }
+
+  /// Returns theme-aware colors for the current brightness.
+  static bool isDark(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark;
 }

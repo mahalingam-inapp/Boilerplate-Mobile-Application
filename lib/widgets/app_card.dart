@@ -17,17 +17,21 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final cardColor = theme.cardTheme.color ?? colorScheme.surface;
+    final borderColor = colorScheme.outline;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: padding ?? const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.card,
+          color: cardColor,
           borderRadius: BorderRadius.circular(AppTheme.radiusLg * 1.5),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: borderColor),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withOpacity(Theme.of(context).brightness == Brightness.dark ? 0.2 : 0.04),
               blurRadius: 4,
               offset: const Offset(0, 1),
             ),

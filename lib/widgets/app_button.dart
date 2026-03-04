@@ -27,6 +27,7 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final disabled = onPressed == null || isLoading;
+    final colorScheme = Theme.of(context).colorScheme;
     EdgeInsets sizePadding;
     double fontSize;
     switch (size) {
@@ -49,23 +50,23 @@ class AppButton extends StatelessWidget {
     BorderSide? side;
     switch (variant) {
       case AppButtonVariant.primary:
-        bg = disabled ? AppColors.primary.withOpacity(0.5) : AppColors.primary;
-        fg = AppColors.primaryForeground;
+        bg = disabled ? colorScheme.primary.withOpacity(0.5) : colorScheme.primary;
+        fg = colorScheme.onPrimary;
         side = null;
         break;
       case AppButtonVariant.secondary:
-        bg = disabled ? AppColors.secondary.withOpacity(0.5) : AppColors.secondary;
-        fg = AppColors.secondaryForeground;
+        bg = disabled ? colorScheme.secondary.withOpacity(0.5) : colorScheme.secondary;
+        fg = colorScheme.onSecondary;
         side = null;
         break;
       case AppButtonVariant.outline:
         bg = Colors.transparent;
-        fg = AppColors.foreground;
-        side = const BorderSide(color: AppColors.border, width: 2);
+        fg = colorScheme.onSurface;
+        side = BorderSide(color: colorScheme.outline, width: 2);
         break;
       case AppButtonVariant.ghost:
         bg = Colors.transparent;
-        fg = AppColors.foreground;
+        fg = colorScheme.onSurface;
         side = null;
         break;
     }

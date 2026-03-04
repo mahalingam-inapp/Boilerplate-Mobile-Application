@@ -94,14 +94,21 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final surface = theme.colorScheme.surface;
+    final muted = isDark ? const Color(0xFF9C9FAE) : AppColors.mutedForeground;
+    final gradientColors = isDark
+        ? [surface, theme.colorScheme.surface.withOpacity(0.95)]
+        : [surface, const Color(0xFFF5F5F5)];
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [AppColors.background, Color(0xFFF5F5F5)],
+            colors: gradientColors,
           ),
         ),
         child: SafeArea(
@@ -111,22 +118,24 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 400),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text('Welcome Back', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500)),
+                    Text('Welcome Back', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500, color: theme.colorScheme.onSurface)),
                     const SizedBox(height: 8),
-                    Text('Sign in to continue', style: TextStyle(color: AppColors.mutedForeground)),
+                    Text('Sign in to continue', style: TextStyle(color: muted)),
                     const SizedBox(height: 32),
                     Container(
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        color: AppColors.card,
+                        color: theme.cardTheme.color ?? theme.colorScheme.surface,
                         borderRadius: BorderRadius.circular(24),
-                        border: Border.all(color: AppColors.border),
+                        border: Border.all(color: theme.colorScheme.outline),
                         boxShadow: [
-                          BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 12, offset: const Offset(0, 4)),
+                          BoxShadow(color: Colors.black.withOpacity(isDark ? 0.2 : 0.06), blurRadius: 12, offset: const Offset(0, 4)),
                         ],
                       ),
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Row(
                             children: [
@@ -136,11 +145,11 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(vertical: 10),
                                     decoration: BoxDecoration(
-                                      color: isEmailMode ? AppColors.primary : Colors.transparent,
+                                      color: isEmailMode ? theme.colorScheme.primary : Colors.transparent,
                                       borderRadius: BorderRadius.circular(AppTheme.radiusLg),
                                     ),
                                     child: Text('Email', textAlign: TextAlign.center,
-                                        style: TextStyle(color: isEmailMode ? AppColors.primaryForeground : AppColors.mutedForeground)),
+                                        style: TextStyle(color: isEmailMode ? theme.colorScheme.onPrimary : muted)),
                                   ),
                                 ),
                               ),
@@ -151,11 +160,11 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(vertical: 10),
                                     decoration: BoxDecoration(
-                                      color: !isEmailMode ? AppColors.primary : Colors.transparent,
+                                      color: !isEmailMode ? theme.colorScheme.primary : Colors.transparent,
                                       borderRadius: BorderRadius.circular(AppTheme.radiusLg),
                                     ),
                                     child: Text('OTP', textAlign: TextAlign.center,
-                                        style: TextStyle(color: !isEmailMode ? AppColors.primaryForeground : AppColors.mutedForeground)),
+                                        style: TextStyle(color: !isEmailMode ? theme.colorScheme.onPrimary : muted)),
                                   ),
                                 ),
                               ),
@@ -167,7 +176,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                               controller: _emailController,
                               decoration: const InputDecoration(
                                 hintText: 'Email address',
-                                prefixIcon: Icon(Icons.mail_outline, size: 20, color: AppColors.mutedForeground),
+                                prefixIcon: Icon(Icons.mail_outline, size: 20, color: muted),
                               ),
                               keyboardType: TextInputType.emailAddress,
                             ),
@@ -177,7 +186,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                               obscureText: true,
                               decoration: const InputDecoration(
                                 hintText: 'Password',
-                                prefixIcon: Icon(Icons.lock_outline, size: 20, color: AppColors.mutedForeground),
+                                prefixIcon: Icon(Icons.lock_outline, size: 20, color: muted),
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -185,7 +194,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                               alignment: Alignment.centerRight,
                               child: TextButton(
                                 onPressed: () => context.push('/auth/reset-password'),
-                                child: const Text('Forgot password?', style: TextStyle(color: AppColors.primary)),
+                                child: Text('Forgot password?', style: TextStyle(color: theme.colorScheme.primary)),
                               ),
                             ),
                             const SizedBox(height: 16),
@@ -203,7 +212,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                 controller: _phoneOrEmailController,
                                 decoration: const InputDecoration(
                                   hintText: 'Phone or Email',
-                                  prefixIcon: Icon(Icons.smartphone, size: 20, color: AppColors.mutedForeground),
+                                  prefixIcon: Icon(Icons.smartphone, size: 20, color: muted),
                                 ),
                               ),
                               const SizedBox(height: 16),
@@ -216,7 +225,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                 ),
                               ),
                             ] else ...[
-                              Text('Enter the OTP sent to ${_phoneOrEmailController.text}', style: const TextStyle(fontSize: 14, color: AppColors.mutedForeground)),
+                              Text('Enter the OTP sent to ${_phoneOrEmailController.text}', style: TextStyle(fontSize: 14, color: muted)),
                               const SizedBox(height: 16),
                               TextField(
                                 controller: _otpController,
@@ -235,7 +244,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                               ),
                               TextButton(
                                 onPressed: () => setState(() => otpSent = false),
-                                child: const Text('Resend OTP', style: TextStyle(color: AppColors.primary)),
+                                child: Text('Resend OTP', style: TextStyle(color: theme.colorScheme.primary)),
                               ),
                             ],
                           ],
@@ -246,10 +255,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Don't have an account? ", style: TextStyle(color: AppColors.mutedForeground)),
+                        Text("Don't have an account? ", style: TextStyle(color: muted)),
                         TextButton(
                           onPressed: () => context.push('/auth/signup'),
-                          child: const Text('Sign up', style: TextStyle(color: AppColors.primary)),
+                          child: Text('Sign up', style: TextStyle(color: theme.colorScheme.primary)),
                         ),
                       ],
                     ),

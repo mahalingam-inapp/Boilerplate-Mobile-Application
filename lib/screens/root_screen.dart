@@ -27,16 +27,18 @@ class RootScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     final isAuthRoute = location.startsWith('/auth');
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     if (isAuthRoute) {
       return Material(
-        color: AppColors.background,
+        color: colorScheme.surface,
         child: child,
       );
     }
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: colorScheme.surface,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -46,9 +48,9 @@ class RootScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: AppColors.card,
-          border: Border(top: BorderSide(color: AppColors.border)),
+        decoration: BoxDecoration(
+          color: theme.cardTheme.color ?? colorScheme.surface,
+          border: Border(top: BorderSide(color: colorScheme.outline)),
         ),
         child: SafeArea(
           child: Padding(
@@ -66,18 +68,19 @@ class RootScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
                             isActive ? item.activeIcon : item.icon,
                             size: 20,
-                            color: isActive ? AppColors.primary : AppColors.mutedForeground,
+                            color: isActive ? colorScheme.primary : colorScheme.onSurface.withOpacity(0.7),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             item.label,
                             style: TextStyle(
                               fontSize: 12,
-                              color: isActive ? AppColors.primary : AppColors.mutedForeground,
+                              color: isActive ? colorScheme.primary : colorScheme.onSurface.withOpacity(0.7),
                             ),
                           ),
                         ],

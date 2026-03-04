@@ -45,12 +45,14 @@ class _ItemListScreenState extends State<ItemListScreen> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('Items', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500)),
-                  Text('${_filteredItems.length} items available', style: TextStyle(color: AppColors.mutedForeground)),
+                  Text('Items', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface)),
+                  Text('${_filteredItems.length} items available', style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? AppColorsDark.mutedForeground : AppColors.mutedForeground)),
                 ],
               ),
               AppButton(
